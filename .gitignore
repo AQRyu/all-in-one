@@ -1,0 +1,47 @@
+# General IDE Files
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+.settings/
+target/
+*.ipr
+*.iws
+*.sln
+*.suo
+.DS_Store
+Thumbs.db
+
+# IntelliJ IDEA
+out/
+*.iml
+*.hprof
+
+# Eclipse
+.metadata/
+bin/
+tmp/
+
+# NetBeans
+nbproject/
+build/
+dist/
+
+# Maven
+.mvn/
+
+# Gradle
+.gradle/
+build/
+
+# Other
+*.log
+*.cache
+*.swp
+*~
+
+# Custom entries (add your specific files or folders below)
+# Example:
+# my_project/config.local.json 
+
