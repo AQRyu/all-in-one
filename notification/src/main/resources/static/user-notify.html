@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SSE Notification Demo</title>
+  </head>
+  <body>
+    <h1>SSE Notification Demo</h1>
+
+    <div>
+      <label for="userId">Enter User ID:</label>
+      <input type="text" id="userId" value="user123" />
+      <button id="connectButton">Connect</button>
+    </div>
+    <div id="messages"></div>
+
+    <script>
+      const connectButton = document.getElementById("connectButton");
+      const messagesDiv = document.getElementById("messages");
+      let eventSource = null;
+      let retryCount = 0;
+      const maxRetries = 5;
+
+      function connectToSSE() {
+        const userId = document.getElementById("userId").value;
+        eventSource = new EventSource(`/connect/${userId}`);
+        eventSource.onmessage = function (event) {
+          const newMessage = document.createElement("p");
+          newMessage.textContent = `User ${userId}: ${event.data}`;
+          messagesDiv.appendChild(newMessage);
+          retryCount = 0; // Reset retry count on successful message
+        };
+
+        eventSource.onerror = function (error) {
+          console.error("SSE connection error:", error);
+          if (retryCount < maxRetries) {
+            retryCount++;
+            let retryDelay = Math.pow(2, retryCount) * 1000;
+            console.log(`Reconnecting in ${retryDelay / 1000} seconds...`);
+            setTimeout(connectToSSE, retryDelay);
+          } else {
+            console.error("Max retries reached. Giving up.");
+            // Handle connection failure (e.g., display an error message)
+          }
+        };
+      }
+
+      connectButton.addEventListener("click", () => {
+        connectToSSE();
+      });
+    </script>
+  </body>
+</html>

@@ -9,4 +9,9 @@ public class HomeController {
   public String home() {
     return "index.html";
   }
+
+  @GetMapping("/notify")
+  public String notification() {
+    return "user-notify.html";
+  }
 }
